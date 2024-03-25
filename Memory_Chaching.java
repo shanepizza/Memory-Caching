@@ -3,11 +3,12 @@ import java.util.Random;
 public class Memory_Chaching {
     static int[] memory_cahche = new int[10];
     static int[] array_of_50 = new int[50];
-    static final int _MAX_VALUE = 100;
+    static final int _MAX_VALUE = 20;
 
     public static void main(String[] args) {
         populate_Cache();
         generate_random_numbers();
+        PrintArrays.printArray(array_of_50);
         cache(array_of_50, memory_cahche);
     }
 
@@ -47,23 +48,30 @@ public class Memory_Chaching {
     }
 
     public static void replace(int commandToAdd, int locationOfFurthestCommand){
-        memory_cahche[locationOfFurthestCommand] = commandToAdd;
+        try {
+            memory_cahche[locationOfFurthestCommand] = commandToAdd;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(commandToAdd);
+            System.err.println(locationOfFurthestCommand);
+        }
+        
     }
 
-    public static int findFurthestcommand(int[] memory_cahche){
+    public static int findFurthestcommand(int[] memory_cache){
         int _commandToRemove =-1;
         int distanceToNextCommand = 0;
         int tempdistance = 0;
 
-        for (int iterateThroughTheCache = 0; iterateThroughTheCache < memory_cahche.length; iterateThroughTheCache++){
-            int currentValue = memory_cahche[iterateThroughTheCache];
+        for (int iterateThroughTheCache = 0; iterateThroughTheCache < memory_cache.length; iterateThroughTheCache++){
+            int currentValue = memory_cache[iterateThroughTheCache];
             for(int checkingdistance = 0; checkingdistance < array_of_50.length; checkingdistance++){
                 if (currentValue == array_of_50[checkingdistance]){
                     tempdistance = checkingdistance-iterateThroughTheCache;
                 }
             }
             if(distanceToNextCommand < tempdistance){
-                _commandToRemove = memory_cahche[iterateThroughTheCache];
+                _commandToRemove = iterateThroughTheCache;
             }
         }
 
